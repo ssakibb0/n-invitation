@@ -212,7 +212,7 @@ a.vc{color:var(--wine)}.lt .btn{color:var(--gold);border-color:var(--gold)}.lt .
 </section>
 <section>
   <p class="lab">Our invitation</p>
-  <img id="card" src="media/saba-nikkah-card.jpg" alt="Nikkah invitation card" style="width:min(90vw,24rem)">
+  <img id="card" src="media/saba-nikkah-card.jpeg" alt="Nikkah invitation card" style="width:min(90vw,24rem)">
 </section>
 <section class="dk">
   <p class="lab">A prayer for the couple</p>
@@ -285,11 +285,12 @@ function tick(){var d=Math.max(0,T-Date.now()),v=[Math.floor(d/864e5),Math.floor
   for(var i=0;i<4;i++)cb[i].textContent=v[i]}
 tick();setInterval(tick,1000);
 /* share */
-document.getElementById('sh').onclick=function(){
+var shareEl=document.getElementById('sh');
+if(shareEl){shareEl.onclick=function(){
   var d={title:'Nikkah Invitation',text:'You are invited to the Nikkah of Shaikh Gulesaba & Shaikh Mohd Sakib - Sunday, 13 Dec 2026, 6:30 pm',url:location.href};
   if(navigator.share)navigator.share(d).catch(function(){});
   else window.open('https://wa.me/?text='+encodeURIComponent(d.text+' '+d.url),'_blank');
-};
+};}
 /* scratch */
 var cv=document.getElementById('cv'),ctx=cv.getContext('2d',{willReadFrequently:true}),sp=document.getElementById('sp'),sx=sp.getContext('2d'),tk=document.getElementById('tk'),pg=document.getElementById('pg'),pt=document.getElementById('pt'),hand=document.getElementById('hand'),done=false,last=0,down=false,lp=null,S=[],sl=0;
 function dims(){var r=cv.parentNode.getBoundingClientRect(),d=window.devicePixelRatio||1;return[Math.round(r.width*d),Math.round(r.height*d),d]}
