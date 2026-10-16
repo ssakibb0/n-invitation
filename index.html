@@ -149,8 +149,8 @@ a.vc{color:var(--wine)}.lt .btn{color:var(--gold);border-color:var(--gold)}.lt .
 .sdn path+path{animation-delay:.25s}
 @keyframes chev{0%{opacity:0;transform:translateY(-7px)}30%,65%{opacity:1}100%{opacity:0;transform:translateY(8px)}}
 /* ---- reveal on scroll ---- */
-.rv{opacity:0;transform:translateY(26px)}
-.rv.in{opacity:1;transform:none;transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
 /* ---- invitation card stack (pinned, scroll-driven) ---- */
 .lt section.stk{display:block;position:relative;height:175svh;padding:0;background:radial-gradient(ellipse at 50% 45%,#4a0f24 0%,#2a0610 72%)}
 .lt section.stk:before{display:none}
@@ -188,6 +188,7 @@ a.vc{color:var(--wine)}.lt .btn{color:var(--gold);border-color:var(--gold)}.lt .
   <div class="nm s">Shaikh Mohd Sakib</div>
   <p class="sm">S/o Late Mohd Mustafa Shaikh</p>
 </section>
+
 <section>
   <p class="lab">A date to hold</p>
   <h2 class="s">Scratch to Reveal</h2>
@@ -274,8 +275,9 @@ function fit(force){
   var key=document.documentElement.clientWidth+'x'+document.getElementById('hero').clientHeight;
   if(!force&&key===fk)return;fk=key;
   document.querySelectorAll('#hero .nm,#hero h1,.lt .nm,#hero .lab').forEach(function(e){
-  e.style.fontSize='';var s=parseFloat(getComputedStyle(e).fontSize),w=e.parentNode.clientWidth*(e.closest('#hero')?.92:.8);e.style.fontSize=s+'px';
-  while(e.scrollWidth>w&&s>12){s-=1;e.style.fontSize=s+'px'}})}
+  e.style.transition='none';e.style.fontSize='';var s0=parseFloat(getComputedStyle(e).fontSize),s=s0,w=e.parentNode.clientWidth*(e.closest('#hero')?.92:.8);e.style.fontSize=s+'px';
+  while(e.scrollWidth>w&&s>Math.max(12,s0*.55)){s-=1;e.style.fontSize=s+'px'}
+  void e.offsetWidth;e.style.transition=''})}
 fit(true);
 var rq=0;addEventListener('resize',function(){if(rq)return;rq=requestAnimationFrame(function(){rq=0;fit();bkSize();bkDraw(cur)})});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){fit(true)});
@@ -370,7 +372,7 @@ addEventListener('scroll',function(){if(!tick){tick=1;requestAnimationFrame(func
 hero();
 sdn.addEventListener('click',function(){document.querySelector('.lt').scrollIntoView({behavior:'smooth'})});
 if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.12});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('in');io.unobserve(t);setTimeout(function(){t.classList.remove('rv','in');t.style.transitionDelay=''},parseFloat(t.style.transitionDelay||0)+1300)}})},{rootMargin:'0px 0px -8% 0px',threshold:.12});
   document.querySelectorAll('.lt section').forEach(function(sec){
     Array.prototype.forEach.call(sec.children,function(el,i){el.classList.add('rv');el.style.transitionDelay=Math.min(i,5)*90+'ms';io.observe(el)})
   });
